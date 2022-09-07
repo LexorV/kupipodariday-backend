@@ -1,4 +1,2 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateOfferDto } from './create-offer.dto';
-
-export class UpdateOfferDto extends PartialType(CreateOfferDto) {}
+import { Offer } from '../entities/offer.entity';
+export type UpdateOfferDto = Omit<Offer, 'id'>;

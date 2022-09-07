@@ -1,1 +1,2 @@
-export class CreateOfferDto {}
+import { Offer } from '../entities/offer.entity';
+export type CreateOfferDto = Omit<Offer, 'id'>;
