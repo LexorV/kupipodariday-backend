@@ -1,20 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
-import { Length, IsInt, IsUrl } from 'class-validator';
+import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
 @Entity()
-export class Offer {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column()
-  createdAt: Date;
-  @Column()
-  updatedAt: Date;
+export class Offer extends BaseEntity {
   @Column()
   amount: number;
   @Column({

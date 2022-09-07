@@ -1,21 +1,10 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Length, MaxLength } from 'class-validator';
+import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
 import { User } from '../../users/entities/user.entity';
 import { Wish } from '../../wishes/entities/wish.entity';
-import { Length, IsEmail, IsUrl, MaxLength } from 'class-validator';
 @Entity()
-export class Wishlist {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column()
-  createdAt: Date;
-  @Column()
-  updatedAt: Date;
+export class Wishlist extends BaseEntity {
   @Column()
   @Length(1, 250)
   name: string;

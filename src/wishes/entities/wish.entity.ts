@@ -1,14 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Length, IsInt, IsUrl } from 'class-validator';
+import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
 @Entity()
-export class Wish {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column()
-  createdAt: Date;
-  @Column()
-  updatedAt: Date;
+export class Wish extends BaseEntity {
   @Column()
   @Length(1, 250)
   name: string;
