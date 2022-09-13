@@ -23,7 +23,7 @@ export class User extends BaseEntity {
     default: 'https://i.pravatar.cc/300',
   })
   @IsUrl()
-  avatar: Url;
+  avatar: string;
   @Column({
     unique: true,
   })
