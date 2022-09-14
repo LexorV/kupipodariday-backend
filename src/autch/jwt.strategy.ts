@@ -7,23 +7,15 @@ import { UsersService } from '../users/users.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private configService: ConfigService,
     private usersService: UsersService,
+    private configService: ConfigService,
   ) {
     super({
-      /* Указываем, что токен будет передаваться в заголовке Authorization в формате Bearer <token> */
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      /* Получаем секрет для подписи JWT токенов из конфигурации */
       secretOrKey: configService.get<string>('jwt_secret'),
     });
   }
-
-  /**
-   * Метод validate должен вернуть данные пользователя
-   * В JWT стратегии в качестве параметра метод получает полезную нагрузку из токена
-   */
   async validate(sub: number) {
-    /* В subject токена будем передавать идентификатор пользователя */
     const user = this.usersService.findOne(sub);
 
     if (!user) {
