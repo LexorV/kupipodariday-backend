@@ -15,7 +15,7 @@ import { AuthController } from './autch.controler';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt_secret'),
+        secret: 'jwt_secret',
       }),
       inject: [ConfigService],
     }),
