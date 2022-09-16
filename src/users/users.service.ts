@@ -39,7 +39,6 @@ export class UsersService {
   }
   async findByUsername(username: string): Promise<User> {
     const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    console.log(username);
     if (reg.test(username)) {
       return await this.userRepository.findOne({
         where: { email: username },
