@@ -38,8 +38,15 @@ export class UsersService {
     await this.userRepository.delete({ id });
   }
   async findByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({
-      where: { username: username },
-    });
+    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    console.log(username);
+    if (reg.test(username)) {
+      return await this.userRepository.findOne({
+        where: { email: username },
+      });
+    } else
+      return await this.userRepository.findOne({
+        where: { username: username },
+      });
   }
 }

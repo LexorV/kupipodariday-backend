@@ -22,14 +22,23 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
+  @Get('find')
+  async findUser(@Body() userData: any) {
+    return await this.usersService
+      .findByUsername(userData.query)
+      .then((user) => {
+        const { password, ...res } = user;
+        return { ...res };
+      });
+  }
+  @UseGuards(JwtGuard)
   @Get('me')
-  findCurrentUser(@Req() req) {
+  userData(@Req() req) {
     return this.usersService.findByUsername(req.username);
   }
   @UseGuards(JwtGuard)
   @Patch('me')
   async update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
-    await console.log(req.user.id);
     return await this.usersService.updateOne(req.user.id, updateUserDto);
   }
   /*
@@ -37,11 +46,12 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }*/
+  @UseGuards(JwtGuard)
   @Get(':username')
-  findUser(@Param('username') username: string) {
+  curentUser(@Param('username') username: string) {
     return this.usersService.findByUsername(username);
   }
-
+  @UseGuards(JwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.removeOne(+id);
