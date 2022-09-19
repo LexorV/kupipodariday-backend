@@ -18,8 +18,6 @@ export class UsersService {
     return await bcrypt.hash(password, 10).then((hash) =>
       this.userRepository.save({
         password: hash,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         ...res,
       }),
     );

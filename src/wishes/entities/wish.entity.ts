@@ -1,7 +1,8 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Length, IsInt, IsUrl } from 'class-validator';
 import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
+import { Offer } from '../../offers/entities/offer.entity';
 @Entity()
 export class Wish extends BaseEntity {
   @Column()
@@ -14,15 +15,16 @@ export class Wish extends BaseEntity {
   image: string;
   @Column()
   price: number;
-  @Column()
+  @Column({ nullable: true })
   raised: number;
   @Column()
   @Length(1, 1024)
   description: string;
-  @Column()
+  @Column({ nullable: true })
   @IsInt()
   copied: number;
-
-  @ManyToOne(() => User, (user) => user.wishes)
+  @OneToMany(() => Offer, (offers) => offers.item)
+  offers: Offer[];
+  @ManyToOne(() => User, (user) => user.id)
   owner: User;
 }
