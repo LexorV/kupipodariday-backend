@@ -18,6 +18,6 @@ export class Wishlist extends BaseEntity {
   /*
   @OneToMany(() => Wishlist, (wish) => wish)
   items: Wish[];*/
-  @ManyToOne(() => User, (user) => user.wishLists)
-  user: User;
+  @ManyToOne(() => User, (user) => user.id)
+  owner: User;
 }

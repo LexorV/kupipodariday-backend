@@ -17,12 +17,43 @@ export class WishesService {
     const userWish = await this.wishRepository.query(
       `SELECT id, username, about, avatar FROM public.user WHERE id = ${id}`,
     );
-    await console.log(userWish);
-    await console.log(id);
-    return await this.wishRepository.save({ owner: userWish, ...res });
+    return await this.wishRepository.save({
+      owner: userWish[0],
+      copied: 0,
+      raised: 0,
+      ...res,
+    });
   }
   async findAll() {
     return await this.wishRepository.query(`SELECT * FROM public.wish`);
+  }
+  async findLast() {
+    return await this.wishRepository.find({
+      relations: {
+        owner: {
+          offers: true,
+          wishes: true,
+        },
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 40,
+    });
+  }
+  async findTop() {
+    return await this.wishRepository.find({
+      relations: {
+        owner: {
+          offers: true,
+          wishes: true,
+        },
+      },
+      order: {
+        copied: 'ASC',
+      },
+      take: 10,
+    });
   }
 
   async findOne(id: number) {

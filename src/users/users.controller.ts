@@ -41,9 +41,15 @@ export class UsersController {
   async update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.updateOne(req.user.id, updateUserDto);
   }
+
+  @UseGuards(JwtGuard)
+  @Get('me/wishes')
+  userWish(@Req() req) {
+    return this.usersService.findUserWishes(req.user.id);
+  }
   /*
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseGuards(JwtGuard)
+  @Get('me/wishes')
     return this.usersService.findOne(+id);
   }*/
   @UseGuards(JwtGuard)

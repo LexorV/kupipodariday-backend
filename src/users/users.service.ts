@@ -22,6 +22,13 @@ export class UsersService {
       }),
     );
   }
+  async findUserWishes(userID: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userID },
+      relations: ['wishes'],
+    });
+    return (await user?.wishes) || [];
+  }
 
   async findOne(id: number) {
     return this.userRepository.findOneBy({ id });
