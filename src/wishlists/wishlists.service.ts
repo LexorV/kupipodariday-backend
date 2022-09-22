@@ -12,19 +12,35 @@ export class WishlistsService {
     private wishListRepository: Repository<Wishlist>,
   ) {}
 
-  async create(Wishlist: CreateWishlistDto) {
-    return this.wishListRepository.save(Wishlist);
+  async create(userId: number, Wishlist: CreateWishlistDto) {
+    const user = await this.wishListRepository.findOne({
+      where: { id: userId },
+      relations: ['owner'],
+    });
+    const newWishList = await { owner: user, ...Wishlist };
+    await this.wishListRepository.save(newWishList);
+    return newWishList;
   }
 
   async findOne(id: number) {
-    return this.wishListRepository.findOneBy({ id });
+    return this.wishListRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        owner: {
+          offers: true,
+          wishes: true,
+        },
+      },
+    });
   }
 
   async updateOne(id: number, Wishlist: UpdateWishlistDto) {
-    await this.wishListRepository.update({ id }, Wishlist);
+    return await this.wishListRepository.update(id, Wishlist);
   }
 
   async removeOne(id: number) {
-    await this.wishListRepository.delete({ id });
+    return await this.wishListRepository.delete(id);
   }
 }
