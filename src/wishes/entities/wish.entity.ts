@@ -15,12 +15,12 @@ export class Wish extends BaseEntity {
   image: string;
   @Column()
   price: number;
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 0 })
   raised: number;
   @Column()
   @Length(1, 1024)
   description: string;
-  @Column({ nullable: true })
+  @Column({ default: 0, nullable: true })
   @IsInt()
   copied: number;
   @OneToMany(() => Offer, (offers) => offers.item)

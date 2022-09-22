@@ -19,8 +19,6 @@ export class WishesService {
     );
     return await this.wishRepository.save({
       owner: userWish[0],
-      copied: 0,
-      raised: 0,
       ...res,
     });
   }
@@ -57,11 +55,11 @@ export class WishesService {
   }
 
   async findOne(id: number) {
-    return this.wishRepository.findOneBy({ id });
+    return await this.wishRepository.findOne({ where: { id } });
   }
 
   async updateOne(id: number, wish: UpdateWishDto) {
-    await this.wishRepository.update({ id }, wish);
+    await this.wishRepository.update(id, wish);
   }
 
   async removeOne(id: number) {

@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import { WishesService } from './wishes.service';
 import { CreateWishDto } from './dto/create-wish.dto';
@@ -30,18 +32,48 @@ export class WishesController {
   create(@Body() createWishDto: CreateWishDto, @Req() req) {
     return this.wishesService.create(createWishDto, req.user.id);
   }
+  @UseGuards(JwtGuard)
+  @Post(':id/copy')
+  async copyWish(@Param('id') idWish: string, @Req() req) {
+    const { id, copied, ...res } = await this.wishesService.findOne(+idWish);
+    const newCopied = copied + 1;
+    await this.wishesService.updateOne(id, { copied: newCopied, ...res });
+    this.wishesService.create({ copied: 0, raised: 0, ...res }, req.id);
+    return {};
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.wishesService.findOne(+id);
   }
-
+  @UseGuards(JwtGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWishDto: UpdateWishDto) {
-    return this.wishesService.updateOne(+id, updateWishDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateWishDto: UpdateWishDto,
+    @Req() req,
+  ) {
+    const wish = await this.wishesService.findOne(+id);
+    if (!wish) {
+      throw new NotFoundException();
+    }
+    if (req.user.id === wish.owner.id) {
+      this.wishesService.updateOne(req.user.id, updateWishDto);
+      return {};
+    } else {
+      new ForbiddenException();
+    }
   }
-
+  @UseGuards(JwtGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.wishesService.removeOne(+id);
+  async remove(@Param('id') id: string, @Req() req) {
+    const wish = await this.wishesService.findOne(+id);
+    if (!wish) {
+      throw new NotFoundException();
+    } else if (req.user.id === wish.owner.id) {
+      await this.wishesService.removeOne(+id);
+      return wish;
+    } else {
+      throw new ForbiddenException();
+    }
   }
 }
