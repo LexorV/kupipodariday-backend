@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
@@ -18,10 +18,13 @@ export class AuthService {
   async validatePassword(username: string, password: string) {
     const user = await this.usersService.findByUsername(username);
     return await bcrypt.compare(password, user.password).then((matched) => {
-      if (!matched) {
-        return null;
+      if (user) {
+        const { password, ...res } = user;
+        return res;
       }
-      return user;
+      if (!matched) {
+        throw new ForbiddenException();
+      }
     });
   }
 }

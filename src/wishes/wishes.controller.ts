@@ -29,8 +29,9 @@ export class WishesController {
   }
   @UseGuards(JwtGuard)
   @Post('')
-  create(@Body() createWishDto: CreateWishDto, @Req() req) {
-    return this.wishesService.create(createWishDto, req.user.id);
+  async create(@Body() createWishDto: CreateWishDto, @Req() req) {
+    await console.log(req.user);
+    return this.wishesService.create(createWishDto, req.user);
   }
   @UseGuards(JwtGuard)
   @Post(':id/copy')

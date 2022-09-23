@@ -28,13 +28,15 @@ export class UsersController {
       .findByUsername(userData.query)
       .then((user) => {
         const { password, ...res } = user;
-        return { ...res };
+        return res;
       });
   }
   @UseGuards(JwtGuard)
   @Get('me')
-  userData(@Req() req) {
-    return this.usersService.findByUsername(req.username);
+  async userData(@Req() req) {
+    console.log(req.user);
+    const { password, ...res } = await this.usersService.findOne(req.user.id);
+    return res;
   }
   @UseGuards(JwtGuard)
   @Patch('me')

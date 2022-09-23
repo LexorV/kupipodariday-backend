@@ -9,6 +9,8 @@ import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlists/entities/wishlist.entity';
 import { Offer } from './offers/entities/offer.entity';
 import { AuthModule } from './autch/autch.module';
+import { ConfigModule } from '@nestjs/config';
+import configs from './config/configuration';
 
 @Module({
   imports: [
@@ -21,6 +23,9 @@ import { AuthModule } from './autch/autch.module';
       database: 'kupipodariday',
       entities: [User, Wish, Wishlist, Offer],
       synchronize: true,
+    }),
+    ConfigModule.forRoot({
+      load: [configs],
     }),
     UsersModule,
     WishesModule,

@@ -12,10 +12,11 @@ import { AuthController } from './autch.controler';
   imports: [
     UsersModule,
     PassportModule,
+    ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: 'jwt_secret',
+        secret: configService.get<string>('jwtSecret'),
       }),
       inject: [ConfigService],
     }),
