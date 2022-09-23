@@ -30,7 +30,6 @@ export class WishesController {
   @UseGuards(JwtGuard)
   @Post('')
   async create(@Body() createWishDto: CreateWishDto, @Req() req) {
-    await console.log(req.user);
     return this.wishesService.create(createWishDto, req.user);
   }
   @UseGuards(JwtGuard)
@@ -58,8 +57,7 @@ export class WishesController {
       throw new NotFoundException();
     }
     if (req.user.id === wish.owner.id) {
-      this.wishesService.updateOne(req.user.id, updateWishDto);
-      return {};
+      return this.wishesService.updateOne(+id, updateWishDto);
     } else {
       new ForbiddenException();
     }

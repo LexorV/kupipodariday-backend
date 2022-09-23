@@ -14,7 +14,6 @@ export class WishesService {
   ) {}
 
   async create(wish: CreateWishDto, user: User) {
-    const { ...res } = wish;
     /*
     const userWish = await this.wishRepository.query(
       `SELECT id,
@@ -25,10 +24,10 @@ export class WishesService {
       updatedAt 
       FROM public.user WHERE id = ${id}`,
     );*/
-    await console.log(res);
+    await console.log(user);
     await this.wishRepository.save({
       owner: user,
-      ...res,
+      ...wish,
     });
     return {};
   }
@@ -37,10 +36,19 @@ export class WishesService {
   }
   async findLast() {
     return await this.wishRepository.find({
+      select: {
+        owner: {
+          id: true,
+          username: true,
+          about: true,
+          avatar: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
       relations: {
         owner: {
           offers: true,
-          wishes: true,
           wishLists: true,
         },
       },
@@ -52,10 +60,19 @@ export class WishesService {
   }
   async findTop() {
     return await this.wishRepository.find({
+      select: {
+        owner: {
+          id: true,
+          username: true,
+          about: true,
+          avatar: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
       relations: {
         owner: {
           offers: true,
-          wishes: true,
           wishLists: true,
         },
       },
@@ -67,11 +84,30 @@ export class WishesService {
   }
 
   async findOne(id: number) {
-    return await this.wishRepository.findOne({ where: { id } });
+    return await this.wishRepository.findOne({
+      where: { id },
+      select: {
+        owner: {
+          id: true,
+          username: true,
+          about: true,
+          avatar: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+      relations: {
+        owner: {
+          offers: true,
+          wishLists: true,
+        },
+      },
+    });
   }
 
   async updateOne(id: number, wish: UpdateWishDto) {
     await this.wishRepository.update(id, wish);
+    return {};
   }
 
   async removeOne(id: number) {
