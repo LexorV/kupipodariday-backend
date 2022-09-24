@@ -46,7 +46,7 @@ export class WishlistsController {
       throw new ForbiddenException();
     }
   }
-
+  @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req) {
     const wishlist = await this.wishlistsService.findOne(+id);
