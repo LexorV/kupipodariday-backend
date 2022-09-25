@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, FindManyOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wish } from './entities/wish.entity';
 import { CreateWishDto } from './dto/create-wish.dto';
@@ -24,7 +24,6 @@ export class WishesService {
       updatedAt 
       FROM public.user WHERE id = ${id}`,
     );*/
-    await console.log(user);
     await this.wishRepository.save({
       owner: user,
       ...wish,
@@ -112,5 +111,8 @@ export class WishesService {
 
   async removeOne(id: number) {
     await this.wishRepository.delete({ id });
+  }
+  public async find(options: FindManyOptions<Wish>) {
+    return this.wishRepository.find(options);
   }
 }

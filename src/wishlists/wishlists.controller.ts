@@ -16,18 +16,23 @@ import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { JwtGuard } from '../autch/guards/jwt.guard';
 
-@Controller('wishlists')
+@Controller('wishlistlists')
 export class WishlistsController {
   constructor(private readonly wishlistsService: WishlistsService) {}
   @UseGuards(JwtGuard)
   @Post('')
   create(@Body() createWishlistDto: CreateWishlistDto, @Req() req) {
-    return this.wishlistsService.create(req.id, createWishlistDto);
+    return this.wishlistsService.create(req.user, createWishlistDto);
   }
   @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.wishlistsService.findOne(+id);
+  }
+  @UseGuards(JwtGuard)
+  @Get('')
+  public async findAll() {
+    return this.wishlistsService.findAll();
   }
   @UseGuards(JwtGuard)
   @Patch(':id')
@@ -54,7 +59,8 @@ export class WishlistsController {
       throw new NotFoundException();
     }
     if (req.user.id === wishlist.owner.id) {
-      return await this.wishlistsService.removeOne(+id);
+      await this.wishlistsService.removeOne(+id);
+      return;
     } else {
       throw new ForbiddenException();
     }
