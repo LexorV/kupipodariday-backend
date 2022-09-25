@@ -1,2 +1,8 @@
-import { Offer } from '../entities/offer.entity';
-export type CreateOfferDto = Omit<Offer, 'id'>;
+import { IsOptional } from 'class-validator';
+
+export class CreateOfferDto {
+  public amount: number;
+  @IsOptional()
+  public hidden: boolean;
+  public itemId: number;
+}
