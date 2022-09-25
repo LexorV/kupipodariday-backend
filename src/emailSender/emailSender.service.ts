@@ -2,7 +2,7 @@ import { createTransport } from 'nodemailer';
 
 // async..await is not allowed in global scope, must use a wrapper
 export class EmailSender {
-  async initSendEmail(mails: string[], message: string) {
+  async sendEmail(mails: string[], message: string) {
     const transporter = createTransport({
       host: 'smtp.yandex.ru',
       port: 465,

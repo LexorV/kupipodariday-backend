@@ -12,7 +12,8 @@ export class Offer extends BaseEntity {
   hidden: boolean;
 
   @ManyToOne(() => User, (user) => user.offers)
-  user: UserVerificationRequirement;
+  user: User;
+
   @ManyToOne(() => Wish, (wish) => wish.offers)
   item: Wish;
 }
