@@ -22,7 +22,7 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  @Get('find')
+  @Post('find')
   async findUser(@Body() userData: any) {
     return await this.usersService
       .findByUsername(userData.query)
