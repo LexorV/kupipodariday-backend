@@ -24,11 +24,10 @@ export class WishesService {
       updatedAt 
       FROM public.user WHERE id = ${id}`,
     );*/
-    await this.wishRepository.save({
-      owner: user,
+    return await this.wishRepository.save({
       ...wish,
+      owner: user,
     });
-    return {};
   }
   async findAll() {
     return await this.wishRepository.query(`SELECT * FROM public.wish`);

@@ -15,10 +15,14 @@ import { WishesService } from './wishes.service';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { UpdateWishDto } from './dto/update-wish.dto';
 import { JwtGuard } from '../autch/guards/jwt.guard';
+import { UsersService } from '../users/users.service';
 
 @Controller('wishes')
 export class WishesController {
-  constructor(private readonly wishesService: WishesService) {}
+  constructor(
+    private readonly wishesService: WishesService,
+    private readonly usersService: UsersService,
+  ) {}
   @Get('last')
   findLast() {
     return this.wishesService.findLast();
@@ -38,8 +42,10 @@ export class WishesController {
     const { id, copied, ...res } = await this.wishesService.findOne(+idWish);
     const newCopied = copied + 1;
     await this.wishesService.updateOne(id, { copied: newCopied, ...res });
-    this.wishesService.create({ copied: 0, raised: 0, ...res }, req.id);
-    return {};
+    return await this.wishesService.create(
+      { copied: 0, raised: 0, ...res },
+      req.user,
+    );
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
