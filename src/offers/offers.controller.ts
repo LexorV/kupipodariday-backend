@@ -21,7 +21,7 @@ export class OffersController {
   @UseGuards(JwtGuard)
   @Post('')
   async create(@Body() createOfferDto: CreateOfferDto, @Req() req) {
-    this.offersService.create(req.user, createOfferDto);
+    return this.offersService.create(req.user, createOfferDto);
   }
   @UseGuards(JwtGuard)
   @Get('')

@@ -24,12 +24,8 @@ export class UsersController {
   }
   @Post('find')
   async findUser(@Body() userData: any) {
-    return await this.usersService
-      .findByUsername(userData.query)
-      .then((user) => {
-        const { password, ...res } = user;
-        return res;
-      });
+    const user = await this.usersService.findByUsername(userData.query);
+    return [user];
   }
   @UseGuards(JwtGuard)
   @Get('me')

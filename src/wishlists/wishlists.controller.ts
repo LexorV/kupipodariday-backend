@@ -60,7 +60,7 @@ export class WishlistsController {
     }
     if (req.user.id === wishlist.owner.id) {
       await this.wishlistsService.removeOne(+id);
-      return;
+      return wishlist;
     } else {
       throw new ForbiddenException();
     }
