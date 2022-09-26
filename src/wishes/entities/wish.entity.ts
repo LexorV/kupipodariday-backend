@@ -9,6 +9,7 @@ export class Wish extends BaseEntity {
   @Length(1, 250)
   name: string;
   @Column()
+  @IsUrl()
   link: string;
   @Column()
   @IsUrl()
