@@ -15,7 +15,7 @@ export class AuthService {
     const payload = { sub: user.id };
     return { access_token: this.jwtService.sign(payload) };
   }
-  async validatePassword(username: string, password: string) {
+  async validateUser(username: string, password: string) {
     const user = await this.usersService.findByUsername(username);
     return await bcrypt.compare(password, user.password).then((matched) => {
       if (user) {

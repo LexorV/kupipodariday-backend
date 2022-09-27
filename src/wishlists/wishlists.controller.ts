@@ -14,7 +14,7 @@ import {
 import { WishlistsService } from './wishlists.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
-import { JwtGuard } from '../autch/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 
 @Controller('wishlistlists')
 export class WishlistsController {
@@ -24,6 +24,7 @@ export class WishlistsController {
   create(@Body() createWishlistDto: CreateWishlistDto, @Req() req) {
     return this.wishlistsService.create(req.user, createWishlistDto);
   }
+
   @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -34,6 +35,7 @@ export class WishlistsController {
   public async findAll() {
     return this.wishlistsService.findAll();
   }
+
   @UseGuards(JwtGuard)
   @Patch(':id')
   async update(
@@ -51,6 +53,7 @@ export class WishlistsController {
       throw new ForbiddenException();
     }
   }
+
   @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req) {

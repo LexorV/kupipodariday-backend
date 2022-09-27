@@ -8,7 +8,7 @@ import { User } from './users/entities/user.entity';
 import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlists/entities/wishlist.entity';
 import { Offer } from './offers/entities/offer.entity';
-import { AuthModule } from './autch/autch.module';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import configs from './config/configuration';
 
@@ -16,11 +16,11 @@ import configs from './config/configuration';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'student',
-      password: '666777',
-      database: 'kupipodariday',
+      host: configs().database.host,
+      port: configs().database.port,
+      username: configs().database.username,
+      password: configs().database.password,
+      database: configs().database.databaseName,
       entities: [User, Wish, Wishlist, Offer],
       synchronize: true,
     }),

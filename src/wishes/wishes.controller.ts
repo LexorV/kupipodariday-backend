@@ -14,7 +14,7 @@ import {
 import { WishesService } from './wishes.service';
 import { CreateWishDto } from './dto/create-wish.dto';
 import { UpdateWishDto } from './dto/update-wish.dto';
-import { JwtGuard } from '../autch/guards/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 import { UsersService } from '../users/users.service';
 
 @Controller('wishes')
@@ -27,15 +27,18 @@ export class WishesController {
   findLast() {
     return this.wishesService.findLast();
   }
+
   @Get('top')
   findTop() {
     return this.wishesService.findTop();
   }
+
   @UseGuards(JwtGuard)
   @Post('')
   async create(@Body() createWishDto: CreateWishDto, @Req() req) {
     return this.wishesService.create(createWishDto, req.user);
   }
+
   @UseGuards(JwtGuard)
   @Post(':id/copy')
   async copyWish(@Param('id') idWish: string, @Req() req) {
@@ -51,6 +54,7 @@ export class WishesController {
   findOne(@Param('id') id: string) {
     return this.wishesService.findOne(+id);
   }
+
   @UseGuards(JwtGuard)
   @Patch(':id')
   async update(
@@ -68,6 +72,7 @@ export class WishesController {
       new ForbiddenException();
     }
   }
+
   @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req) {
