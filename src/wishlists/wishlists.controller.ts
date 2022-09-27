@@ -24,6 +24,7 @@ export class WishlistsController {
   create(@Body() createWishlistDto: CreateWishlistDto, @Req() req) {
     return this.wishlistsService.create(req.user, createWishlistDto);
   }
+
   @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -34,6 +35,7 @@ export class WishlistsController {
   public async findAll() {
     return this.wishlistsService.findAll();
   }
+
   @UseGuards(JwtGuard)
   @Patch(':id')
   async update(
@@ -51,6 +53,7 @@ export class WishlistsController {
       throw new ForbiddenException();
     }
   }
+
   @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req) {

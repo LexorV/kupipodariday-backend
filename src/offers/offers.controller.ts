@@ -19,11 +19,13 @@ export class OffersController {
   async create(@Body() createOfferDto: CreateOfferDto, @Req() req) {
     return this.offersService.create(req.user, createOfferDto);
   }
+
   @UseGuards(JwtGuard)
   @Get('')
   findAll() {
     return this.offersService.findAll();
   }
+
   @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
