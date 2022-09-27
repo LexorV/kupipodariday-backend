@@ -3,7 +3,7 @@ import { Wish } from '../../wishes/entities/wish.entity';
 import { Offer } from '../../offers/entities/offer.entity';
 import { Length, IsEmail, IsUrl } from 'class-validator';
 import { Wishlist } from '../../wishlists/entities/wishlist.entity';
-import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
+import { BaseEntity } from '../../shared/entity/BaseEntity';
 import { Url } from 'url';
 @Entity()
 export class User extends BaseEntity {

@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Length, IsInt, IsUrl } from 'class-validator';
-import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
+import { BaseEntity } from '../../shared/entity/BaseEntity';
 import { Offer } from '../../offers/entities/offer.entity';
 @Entity()
 export class Wish extends BaseEntity {

@@ -9,4 +9,10 @@ export default () => ({
     databaseName: 'kupipodariday',
   },
   jwtSecret: 'jwtSecret',
+  smtpConfig: {
+    host: 'smtp.yandex.ru',
+    port: 465,
+    user: 'testservex@yandex.ru',
+    pass: '666777Asv',
+  },
 });

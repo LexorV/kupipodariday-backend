@@ -1,13 +1,6 @@
-import {
-  Entity,
-  Column,
-  OneToMany,
-  ManyToOne,
-  JoinTable,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinTable, ManyToMany } from 'typeorm';
 import { Length, MaxLength, IsOptional } from 'class-validator';
-import { BaseEntity } from '../../BaseComponets/entity/BaseEntity';
+import { BaseEntity } from '../../shared/entity/BaseEntity';
 import { User } from '../../users/entities/user.entity';
 import { Wish } from '../../wishes/entities/wish.entity';
 @Entity()
@@ -20,9 +13,6 @@ export class Wishlist extends BaseEntity {
   description: string;
   @Column()
   image: string;
-  /*
-  @OneToMany(() => Wishlist, (wish) => wish)
-  items: Wish[];*/
   @ManyToOne(() => User, (user) => user.wishLists)
   owner: User;
 

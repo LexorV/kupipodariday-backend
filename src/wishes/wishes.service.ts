@@ -14,16 +14,6 @@ export class WishesService {
   ) {}
 
   async create(wish: CreateWishDto, user: User) {
-    /*
-    const userWish = await this.wishRepository.query(
-      `SELECT id,
-      username,
-      about, 
-      avatar,
-      createdAt, 
-      updatedAt 
-      FROM public.user WHERE id = ${id}`,
-    );*/
     return await this.wishRepository.save({
       ...wish,
       owner: user,
